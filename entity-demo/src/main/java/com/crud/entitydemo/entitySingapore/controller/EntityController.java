@@ -10,6 +10,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/v1")
 public class EntityController {
@@ -25,9 +27,15 @@ public class EntityController {
     }
 
     @Transactional
-    @PostMapping("/entity")
+    @PostMapping("/entities")
     public ResponseEntity<EntityResponseDto> createEntity(@RequestBody EntityRequestDto entityRequestDto){
         return new ResponseEntity<EntityResponseDto>(entityService.createEntity(entityRequestDto), HttpStatus.CREATED);
+    }
+
+    @Transactional
+    @GetMapping("/entities")
+    public ResponseEntity<List<EntityResponseDto>> getAllEntities(){
+        return new ResponseEntity<List<EntityResponseDto>>(entityService.getAllEntities(), HttpStatus.OK);
     }
 
 

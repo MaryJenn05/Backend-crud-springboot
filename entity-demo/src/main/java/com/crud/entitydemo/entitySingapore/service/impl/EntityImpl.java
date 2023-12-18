@@ -19,6 +19,7 @@ import java.io.InputStreamReader;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class EntityImpl implements EntityService {
@@ -38,6 +39,12 @@ public class EntityImpl implements EntityService {
         entityRepository.save(entityToCreate);
 
         return modelMapper.map(entityToCreate, EntityResponseDto.class);
+    }
+
+    @Override
+    public List<EntityResponseDto> getAllEntities() {
+        List<EntityModel> entities = entityRepository.findAll();
+        return entities.stream().map( entity -> modelMapper.map( entity, EntityResponseDto.class)).collect(Collectors.toList());
     }
 
     @Override
