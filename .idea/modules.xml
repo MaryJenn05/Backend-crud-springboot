@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/Backend-crud-springboot.iml" filepath="$PROJECT_DIR$/.idea/Backend-crud-springboot.iml" />
+      <module fileurl="file://$PROJECT_DIR$/entity-demo/entity-demo.iml" filepath="$PROJECT_DIR$/entity-demo/entity-demo.iml" />
     </modules>
   </component>
 </project>
