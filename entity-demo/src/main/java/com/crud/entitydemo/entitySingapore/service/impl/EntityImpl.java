@@ -1,12 +1,16 @@
 package com.crud.entitydemo.entitySingapore.service.impl;
 
+import com.crud.entitydemo.entitySingapore.dto.request.EntityRequestDto;
+import com.crud.entitydemo.entitySingapore.dto.response.EntityResponseDto;
 import com.crud.entitydemo.entitySingapore.model.EntityModel;
 import com.crud.entitydemo.entitySingapore.repository.EntityRepository;
 import com.crud.entitydemo.entitySingapore.service.EntityService;
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvValidationException;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -21,6 +25,20 @@ public class EntityImpl implements EntityService {
 
     @Autowired
     private EntityRepository entityRepository;
+    @Autowired
+    private ModelMapper modelMapper;
+
+    @Override
+    public EntityResponseDto createEntity(EntityRequestDto entityRequestDto) {
+        EntityModel entityToCreate = modelMapper.map(entityRequestDto, EntityModel.class);
+        if( entityRepository.existsByUen(entityToCreate.getUen())){
+            throw new RuntimeException("UEN already exists");
+        }
+        entityToCreate.setUenIssueDate(LocalDate.now());
+        entityRepository.save(entityToCreate);
+
+        return modelMapper.map(entityToCreate, EntityResponseDto.class);
+    }
 
     @Override
     public void saveEntityData() {
@@ -36,7 +54,7 @@ public class EntityImpl implements EntityService {
                 int count = 0;
                 List<EntityModel> entitiesToSave = new ArrayList<>();
 
-                while((line = reader.readNext()) != null){
+                while((line = reader.readNext()) != null && count<= 50){
                     EntityModel entityModel = new EntityModel();
 
                     entityModel.setUen(line[0]);
