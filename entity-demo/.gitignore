@@ -35,3 +35,7 @@ build/
 ### CSV ###
 *.csv
 src/main/java/com/crud/entitydemo/shared/static/
+src/main/resources/static
+
+### Env ###
+.env

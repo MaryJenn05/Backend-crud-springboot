@@ -29,6 +29,7 @@ public class EntityImpl implements EntityService {
 
             if( inputStream != null){
                 CSVReader reader = new CSVReader( new InputStreamReader(inputStream));
+                String[] headerLine = reader.readNext();
                 String[] line;
 
                 int insertionsSize = 1000;
@@ -43,7 +44,9 @@ public class EntityImpl implements EntityService {
                     entityModel.setUenStatus(line[2]);
                     entityModel.setEntityName(line[3]);
                     entityModel.setEntityType(line[4]);
+
                     entityModel.setUenIssueDate(LocalDate.parse(line[5]));
+
                     entityModel.setRegStreetName(line[6]);
                     entityModel.setRegPostalCode(line[7]);
 
