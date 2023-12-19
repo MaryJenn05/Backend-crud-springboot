@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.function.EntityResponse;
 
 import java.util.List;
 
@@ -49,5 +50,11 @@ public class EntityController {
     public ResponseEntity<String> deleteEntity(@PathVariable Long id){
         entityService.deleteEntity(id);
         return new ResponseEntity<String>("Entity deleted", HttpStatus.OK);
+    }
+
+    @Transactional
+    @GetMapping("/entities/{id}")
+    public ResponseEntity<EntityResponseDto> getEntityById(@PathVariable Long id){
+         return new ResponseEntity<EntityResponseDto>( entityService.getEntityById(id), HttpStatus.OK);
     }
 }

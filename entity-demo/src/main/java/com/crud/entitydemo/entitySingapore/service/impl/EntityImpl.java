@@ -56,6 +56,15 @@ public class EntityImpl implements EntityService {
     }
 
     @Override
+    public EntityResponseDto getEntityById(Long id) {
+        if(!entityRepository.existsById(id)){
+            throw new RuntimeException("Entity not found");
+        }
+        EntityModel entity = entityRepository.findById(id).get();
+        return modelMapper.map(entity, EntityResponseDto.class);
+    }
+
+    @Override
     public EntityResponseDto updateEntity(Long id,  EntityRequestDto entityRequestDto) {
 
         if( !entityRepository.existsById(id)){
