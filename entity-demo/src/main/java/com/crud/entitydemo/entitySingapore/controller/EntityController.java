@@ -44,5 +44,10 @@ public class EntityController {
         return new ResponseEntity<EntityResponseDto>( entityService.updateEntity(id, entityRequestDto), HttpStatus.OK);
     }
 
-
+    @Transactional
+    @DeleteMapping("/entities/{id}")
+    public ResponseEntity<String> deleteEntity(@PathVariable Long id){
+        entityService.deleteEntity(id);
+        return new ResponseEntity<String>("Entity deleted", HttpStatus.OK);
+    }
 }

@@ -48,6 +48,14 @@ public class EntityImpl implements EntityService {
     }
 
     @Override
+    public void deleteEntity(Long id) {
+        if( !entityRepository.existsById(id)){
+            throw new RuntimeException("Entity not found");
+        }
+        entityRepository.deleteById(id);
+    }
+
+    @Override
     public EntityResponseDto updateEntity(Long id,  EntityRequestDto entityRequestDto) {
 
         if( !entityRepository.existsById(id)){
