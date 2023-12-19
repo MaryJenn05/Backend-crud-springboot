@@ -38,6 +38,11 @@ public class EntityController {
         return new ResponseEntity<List<EntityResponseDto>>(entityService.getAllEntities(), HttpStatus.OK);
     }
 
+    @Transactional
+    @PutMapping("/entities/{id}")
+    public ResponseEntity<EntityResponseDto> updateEntity(@PathVariable Long id, @RequestBody EntityRequestDto entityRequestDto){
+        return new ResponseEntity<EntityResponseDto>( entityService.updateEntity(id, entityRequestDto), HttpStatus.OK);
+    }
 
 
 }

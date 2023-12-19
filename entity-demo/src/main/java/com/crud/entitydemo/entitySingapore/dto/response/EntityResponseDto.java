@@ -5,17 +5,21 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 
 public class EntityResponseDto {
-    private String issuanceAgencyId;
+
+    private String uen;
+    private String issuanceAgency;
     private String uenStatus;
     private String entityName;
     private String entityType;
-    private String uenIssueDate;
+    private LocalDate uenIssueDate;
     private String regStreetName;
     private String regPostalCode;
 

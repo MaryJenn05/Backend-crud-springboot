@@ -48,6 +48,19 @@ public class EntityImpl implements EntityService {
     }
 
     @Override
+    public EntityResponseDto updateEntity(Long id,  EntityRequestDto entityRequestDto) {
+
+        if( !entityRepository.existsById(id)){
+            throw new RuntimeException("Entity not found");
+        }
+        EntityModel entityToUpdate = entityRepository.findById(id).get();
+        modelMapper.map(entityRequestDto, entityToUpdate);
+
+        entityRepository.save(entityToUpdate);
+        return modelMapper.map(entityToUpdate, EntityResponseDto.class);
+    }
+
+    @Override
     public void saveEntityData() {
         try{
             InputStream inputStream = getClass().getResourceAsStream("/static/EntitiesRegisteredwithACRA.csv");
@@ -65,7 +78,7 @@ public class EntityImpl implements EntityService {
                     EntityModel entityModel = new EntityModel();
 
                     entityModel.setUen(line[0]);
-                    entityModel.setIssuanceAgencyId(line[1]);
+                    entityModel.setIssuanceAgency(line[1]);
                     entityModel.setUenStatus(line[2]);
                     entityModel.setEntityName(line[3]);
                     entityModel.setEntityType(line[4]);

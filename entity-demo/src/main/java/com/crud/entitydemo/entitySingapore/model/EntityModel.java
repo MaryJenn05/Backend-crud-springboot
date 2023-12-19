@@ -1,9 +1,6 @@
 package com.crud.entitydemo.entitySingapore.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 import jakarta.validation.constraints.Pattern;
 
@@ -16,14 +13,17 @@ import java.time.LocalDate;
 @Builder
 @Entity
 
-@Table(name = "entities")
+@Table(name = "entitie")
 public class EntityModel {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
     @Column(name = "uen", nullable = false)
     private String uen;
 
     @Column( name = "issuance_agency_id", nullable = false)
-    private String issuanceAgencyId;
+    private String issuanceAgency;
 
     @Column( name = "uen_status", nullable = false)
     private String uenStatus;
@@ -43,4 +43,6 @@ public class EntityModel {
 
     @Column( name = "reg_postal_code", nullable = false)
     private String regPostalCode;
+
+
 }

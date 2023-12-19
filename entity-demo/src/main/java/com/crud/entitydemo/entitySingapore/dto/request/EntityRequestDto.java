@@ -12,7 +12,8 @@ import lombok.NoArgsConstructor;
 
 public class EntityRequestDto {
 
-    private String issuanceAgencyId;
+    private String uen;
+    private String issuanceAgency;
     private String uenStatus;
     private String entityName;
     private String entityType;
