@@ -13,7 +13,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 
 public class EntityResponseDto {
-
+    private Long id;
     private String uen;
     private String issuanceAgency;
     private String uenStatus;

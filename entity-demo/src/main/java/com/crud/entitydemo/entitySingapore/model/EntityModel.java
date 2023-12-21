@@ -13,10 +13,11 @@ import java.time.LocalDate;
 @Builder
 @Entity
 
-@Table(name = "entitie")
+@Table(name = "entities")
 public class EntityModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
     private Long id;
 
     @Column(name = "uen", nullable = false)

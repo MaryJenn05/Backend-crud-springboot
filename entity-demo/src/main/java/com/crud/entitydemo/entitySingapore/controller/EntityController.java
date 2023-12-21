@@ -12,9 +12,10 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.function.EntityResponse;
 
 import java.util.List;
-
+//cors
 @RestController
 @RequestMapping("/api/v1")
+@CrossOrigin(origins = "*")
 public class EntityController {
 
     @Autowired
@@ -49,7 +50,7 @@ public class EntityController {
     @DeleteMapping("/entities/{id}")
     public ResponseEntity<String> deleteEntity(@PathVariable Long id){
         entityService.deleteEntity(id);
-        return new ResponseEntity<String>("Entity deleted", HttpStatus.OK);
+        return new ResponseEntity<String>( HttpStatus.OK);
     }
 
     @Transactional

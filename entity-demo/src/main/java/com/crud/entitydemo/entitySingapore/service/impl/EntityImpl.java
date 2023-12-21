@@ -70,6 +70,10 @@ public class EntityImpl implements EntityService {
         if( !entityRepository.existsById(id)){
             throw new RuntimeException("Entity not found");
         }
+
+        if( entityRepository.existsByUen(entityRequestDto.getUen())){
+            throw new RuntimeException("UEN already exists");
+        }
         EntityModel entityToUpdate = entityRepository.findById(id).get();
         modelMapper.map(entityRequestDto, entityToUpdate);
 
@@ -91,17 +95,14 @@ public class EntityImpl implements EntityService {
                 int count = 0;
                 List<EntityModel> entitiesToSave = new ArrayList<>();
 
-                while((line = reader.readNext()) != null && count<= 50){
+                while((line = reader.readNext()) != null && count < 100){
                     EntityModel entityModel = new EntityModel();
-
                     entityModel.setUen(line[0]);
                     entityModel.setIssuanceAgency(line[1]);
                     entityModel.setUenStatus(line[2]);
                     entityModel.setEntityName(line[3]);
                     entityModel.setEntityType(line[4]);
-
                     entityModel.setUenIssueDate(LocalDate.parse(line[5]));
-
                     entityModel.setRegStreetName(line[6]);
                     entityModel.setRegPostalCode(line[7]);
 
@@ -109,6 +110,7 @@ public class EntityImpl implements EntityService {
 
                     if( ++count % insertionsSize == 0){
                         entityRepository.saveAll(entitiesToSave);
+                        System.out.println("saved");
                         entitiesToSave.clear();
                     }
                 }
