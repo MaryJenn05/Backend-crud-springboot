@@ -7,4 +7,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface EntityRepository extends JpaRepository<EntityModel, Long> {
     boolean existsByUen(String uen);
+
 }

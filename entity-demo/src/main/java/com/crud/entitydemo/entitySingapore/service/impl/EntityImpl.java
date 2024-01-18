@@ -5,12 +5,18 @@ import com.crud.entitydemo.entitySingapore.dto.response.EntityResponseDto;
 import com.crud.entitydemo.entitySingapore.model.EntityModel;
 import com.crud.entitydemo.entitySingapore.repository.EntityRepository;
 import com.crud.entitydemo.entitySingapore.service.EntityService;
+import com.crud.entitydemo.shared.model.PageQuery;
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvValidationException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Service;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -19,7 +25,6 @@ import java.io.InputStreamReader;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class EntityImpl implements EntityService {
@@ -44,8 +49,25 @@ public class EntityImpl implements EntityService {
     @Override
     public List<EntityResponseDto> getAllEntities() {
         List<EntityModel> entities = entityRepository.findAll();
-        return entities.stream().map( entity -> modelMapper.map( entity, EntityResponseDto.class)).collect(Collectors.toList());
+        return entities.stream().map(entity -> modelMapper.map(entity, EntityResponseDto.class)).toList();
     }
+
+    @Override
+    public Page<EntityResponseDto> getAllEntitiesPage(Pageable pageable) {
+        return entityRepository.findAll(pageable).map(entity -> modelMapper.map(entity, EntityResponseDto.class));
+    }
+
+    @Override
+    public Page<EntityResponseDto> getAllPageQuery(PageQuery pageableQuery) {
+
+        Sort sort = Sort.by(Sort.Direction.fromString(pageableQuery.getEnOrden()),
+                pageableQuery.getOrdenadoPor());
+
+        Pageable pageable = PageRequest.of(pageableQuery.getPagina(), pageableQuery.getElementosPorPagina(), sort);
+        return entityRepository.findAll(pageable).map(product -> modelMapper.map(product, EntityResponseDto.class));
+
+    }
+
 
     @Override
     public void deleteEntity(Long id) {
@@ -74,6 +96,7 @@ public class EntityImpl implements EntityService {
         if( entityRepository.existsByUen(entityRequestDto.getUen())){
             throw new RuntimeException("UEN already exists");
         }
+
         EntityModel entityToUpdate = entityRepository.findById(id).get();
         modelMapper.map(entityRequestDto, entityToUpdate);
 
